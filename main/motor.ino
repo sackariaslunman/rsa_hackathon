@@ -10,42 +10,37 @@ void Motor::init() {
   pinMode(in4_pin_right, OUTPUT); // In4 B pin
 }
 
-// Speed is 0-100
 void Motor::setLeft(int speed) {
-  digitalWrite(in1_pin_left, LOW);
-  digitalWrite(in2_pin_left, HIGH);
+  setMotor(enable_pin_left, in1_pin_left, in2_pin_left, -speed);
+}
 
-  int pwm_speed = map(speed, 0, 100, 0, 255);
-  analogWrite(enable_pin_left, pwm_speed);
+void Motor::setRight(int speed) {
+  setMotor(enable_pin_right, in3_pin_right, in4_pin_right, -speed);
+}
+
+// Speed is -255 to 255
+// Direction: false == forward, true == backward
+void Motor::setMotor(uint8_t enable_pin, uint8_t in1_pin, uint8_t in2_pin, int speed) {
+
+  bool direction = false;
+  speed = constrain(speed, -100, 100);
+
+  if (speed <= -lower_bound_speed) {
+    direction = true;
+    speed = -speed;
+  } else if (speed >= lower_bound_speed) {
+    direction = false;
+  } else {
+    analogWrite(enable_pin_left, 0);
+  }
+
+  if (direction) {
+    digitalWrite(in1_pin, HIGH);
+    digitalWrite(in2_pin, LOW);
+  } else {
+    digitalWrite(in1_pin, LOW);
+    digitalWrite(in2_pin, HIGH);
+  }
+
+  analogWrite(enable_pin, speed);
 };
-
-// void Motor::setLeft(int speed) {
-//   if(speed > 5){
-//     digitalWrite(5, LOW);
-//     // digitalWrite(3, HIGH);
-//     analogWrite(3, speed);
-//   }else if(speed < -5){ 
-//     digitalWrite(3, LOW);
-//     // digitalWrite(5, HIGH);
-
-//     analogWrite(5, -speed);
-//   }else{
-//     digitalWrite(3, LOW);
-//     digitalWrite(5, LOW);
-//   }
-// }
-
-// void Motor::setRight(int speed) {
-//   if(speed > 5){
-//     digitalWrite(9, LOW);
-//     analogWrite(6, speed);
-//     // digitalWrite(6, HIGH);
-//   }else if(speed < -5){
-//     digitalWrite(6, LOW);
-//     // digitalWrite(9, HIGH);
-//     analogWrite(9, -speed);
-//   }else{
-//     digitalWrite(6, LOW);
-//     digitalWrite(9, LOW);
-//   }
-// }

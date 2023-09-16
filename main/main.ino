@@ -19,5 +19,5 @@ void setup() {
 void loop() {
   gamepad.update(); // DO NOT REMOVE
   
-
+  motor.setLeft(50);
 }

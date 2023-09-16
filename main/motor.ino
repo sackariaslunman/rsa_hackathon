@@ -10,7 +10,7 @@ void Motor::setLeft(int speed) {
     digitalWrite(5, LOW);
     // digitalWrite(3, HIGH);
     analogWrite(3, speed);
-  }else if(speed < -5){
+  }else if(speed < -5){ 
     digitalWrite(3, LOW);
     // digitalWrite(5, HIGH);
 

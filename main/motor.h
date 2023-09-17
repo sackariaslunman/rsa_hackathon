@@ -8,7 +8,10 @@ class Motor {
     const uint8_t in3_pin_right = 8;
     const uint8_t in4_pin_right = 12;
 
-    const int lower_bound_speed = 5;
+    const int lower_bound_speed = 10;
+
+    const int max_speed = 255;
+    const int min_speed = -255;
 
   public:
     void init();

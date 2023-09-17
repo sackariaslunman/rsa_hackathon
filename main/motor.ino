@@ -11,11 +11,11 @@ void Motor::init() {
 }
 
 void Motor::setLeft(int speed) {
-  setMotor(enable_pin_left, in1_pin_left, in2_pin_left, -speed);
+  setMotor(enable_pin_left, in1_pin_left, in2_pin_left, speed);
 }
 
 void Motor::setRight(int speed) {
-  setMotor(enable_pin_right, in3_pin_right, in4_pin_right, -speed);
+  setMotor(enable_pin_right, in3_pin_right, in4_pin_right, speed);
 }
 
 // Speed is -255 to 255
@@ -23,7 +23,7 @@ void Motor::setRight(int speed) {
 void Motor::setMotor(uint8_t enable_pin, uint8_t in1_pin, uint8_t in2_pin, int speed) {
 
   bool direction = false;
-  speed = constrain(speed, -100, 100);
+  speed = constrain(speed, min_speed, max_speed);
 
   if (speed <= -lower_bound_speed) {
     direction = true;
@@ -31,7 +31,8 @@ void Motor::setMotor(uint8_t enable_pin, uint8_t in1_pin, uint8_t in2_pin, int s
   } else if (speed >= lower_bound_speed) {
     direction = false;
   } else {
-    analogWrite(enable_pin_left, 0);
+    analogWrite(enable_pin, 0);
+    return;
   }
 
   if (direction) {
